@@ -5,6 +5,17 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class ListItem extends Component {
+
+  renderDescription() {
+    const {library, selectedLibraryId } = this.props;
+
+    if (library.item.id === selectedLibraryId) {
+      return (
+        <Text>{library.item.description}</Text>
+      );
+    }
+  }
+
   render() {
     const { id, title } = this.props.library.item;
     const { titleStyle } = styles;
@@ -17,6 +28,7 @@ class ListItem extends Component {
               {id} - {title}
             </Text>
           </CardItem>
+          {this.renderDescription()}
         </View>
       </TouchableWithoutFeedback>
     );
@@ -30,7 +42,11 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return { selectedLibraryId: state.selectedLibraryId };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   actions
 )(ListItem);
